@@ -25,14 +25,71 @@ body {margin:0;background:var(--bg);color:var(--text);padding:20px;}
   font-size:1.1rem;
   font-weight:600;
   text-decoration:none;
+  cursor:pointer;
+  border:none;
 }
+.btn:hover {opacity:0.9;}
+.btn.disabled {opacity:0.5;pointer-events:none;cursor:not-allowed;}
+.page {display:none;}
+.page.active {display:block;}
+.back-btn {background:#555;color:#fff;margin-bottom:20px;}
+.file-list {text-align:left;max-width:800px;margin:20px auto;}
+.file-item {
+  padding:12px;
+  margin:8px 0;
+  background:var(--card);
+  border-radius:8px;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.file-item:hover {background:#1a2333;}
+.file-item a {color:var(--accent);text-decoration:none;}
 </style>
 </head>
 <body>
-  <div class="center">
-    <h1 style="font-size:2.2rem;margin-bottom:20px;">Cole's Weather Site</h1>
-    <a href="#tornado" class="btn">Tornado NEXRAD Files</a>
-    <a href="#doppler" class="btn" style="opacity:0.5;pointer-events:none;">Doppler Radar Files (Coming Soon)</a>
+  <div id="home" class="page active">
+    <div class="center">
+      <h1 style="font-size:2.2rem;margin-bottom:20px;">Cole's Weather Site</h1>
+      <button class="btn" onclick="goToPage('tornado')">Tornado NEXRAD Files</button>
+      <button class="btn disabled">Doppler Radar Files (Coming Soon)</button>
+    </div>
   </div>
+
+  <div id="tornado" class="page">
+    <div style="max-width:900px;margin:0 auto;">
+      <button class="btn back-btn" onclick="goToPage('home')">← Back Home</button>
+      <h2 style="text-align:center;">Tornado NEXRAD Files</h2>
+      <div class="file-list">
+        <div class="file-item">
+          <a href="https://www.ncei.noaa.gov/products/severe-weather-data-inventory" target="_blank">
+            📊 NOAA Severe Weather Data Inventory
+          </a>
+        </div>
+        <div class="file-item">
+          <a href="https://www.ncdc.noaa.gov/wct/" target="_blank">
+            🗂️ Web Coverage Tool - Download NEXRAD Data
+          </a>
+        </div>
+        <div class="file-item">
+          <a href="https://www.ncei.noaa.gov/thredds/catalog.html" target="_blank">
+            🌐 NOAA THREDDS Data Server
+          </a>
+        </div>
+        <div class="file-item">
+          <a href="https://noaa-nexrad-level2.s3.amazonaws.com/" target="_blank">
+            ☁️ AWS S3 NEXRAD Level 2 Archive
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function goToPage(pageName) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageName).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+  </script>
 </body>
 </html>
